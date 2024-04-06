@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Name Shuffler</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+
+    h1 {
+      margin-top: 20px;
+    }
+
+   #names-list {
+      margin-top: 20px;
+    }
+
+    .name-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 5px;
+    }
+
+    .name-item span {
+      flex-grow: 1;
+      margin-right: 5px;
+    }
+
+    button {
+      margin-top: 20px;
+    }
+
+    #names-list {
+      margin-top: 20px;
+    }
+
+    .name-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 5px;
+    }
+
+    .name-item span {
+      flex-grow: 1;
+      margin-right: 5px;
+    }
+
+    button {
+      margin-top: 20px;
+    }
+
+    #winner {
+      margin-top: 20px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>Name Shuffler</h1>
+  <div id="name-container">
+    <input type="text" id="name-input" placeholder="Enter a name" />
+    <button onclick="addName()">Add Name</button>
+    <button onclick="shuffleNames()">Shuffle Names</button>
+  </div>
+  <div id="names-list"></div>
+  <div id="winner"></div>
+  <script>
+    let names = [];
+
+    function addName() {
+      const nameInput = document.getElementById("name-input");
+      const name = nameInput.value.trim();
+
+      if (name !== "") {
+        names.push(name);
+        displayNames();
+        nameInput.value = "";
+      } else {
+        alert("Please enter a valid name.");
+      }
+    }
+
+    function shuffleNames() {
+      for (let i = names.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [names[i], names[j]] = [names[j], names[i]];
+      }
+      displayNames();
+      displayWinner();
+    }
+
+    function displayNames() {
+      const namesList = document.getElementById("names-list");
+      namesList.innerHTML = "";
+
+      names.forEach((name) => {
+        const nameItem = document.createElement("div");
+        nameItem.classList.add("name-item");
+        nameItem.innerHTML = `
+          <span>${name}</span>
+          <button onclick="removeName('${name}')">Remove</button>
+        `;
+        namesList.appendChild(nameItem);
+      });
+    }
+
+    function removeName(name) {
+      names = names.filter((n) => n !== name);
+      displayNames();
+    }
+
+    function displayWinner() {
+      const winnerContainer = document.getElementById("winner");
+      winnerContainer.textContent = "";
+      if (names.length > 0) {
+        const winnerIndex = Math.floor(Math.random() * names.length);
+        const winner = names[winnerIndex];
+        winnerContainer.textContent = `Winner: ${winner}`;
+      }
+    }
+  </script>
+</body>
+</html>
